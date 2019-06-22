@@ -1,0 +1,26 @@
+-new gradient descent algo
+
+theta_j := theta_j - alpha(1/m)((Sum_i=1^m)((h_0(x^i) - y^i)))x_j^i
+(simultaneously update theta_j for j=0,...n)
+
+- feature scaling is a tool to help expedite gradient descent
+	this is a method where you modify each value to fall into a range of about -1< x_j < 1. This can be accomplished by dividing each x_j by the maximum value of x_j
+
+- another method is Mean Normalization
+	(x_j - mu_j)
+	------------
+	Max(x_j)
+:: j != 0
+
+	(x_i - mu_i)
+	-----------
+	s_1
+:: s1 = stanDev
+
+-Normal Equation
+
+Theta = (X'X)^-1 (X')(y)
+
+Rare case the (X'X) is singular
+	use pinv(X'*X)*X'*y
+-inv won't do correctly but pinv will!

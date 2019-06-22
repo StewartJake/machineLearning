@@ -1,0 +1,50 @@
+2 Major ml algorithms
+	supervised
+	unsupervised
+- supervised learning we teach comp/ unsuper comp teaches self
+-others may include: reinforcement learning, recommender systems
+
+-informal ml def: computer learns without explicit programming
+-more modern: learn from some experience E, with respect to task T, measuring performace P. performance in T, measured by p, should increase with E.
+
+-supervised learning: "right answers" given
+-regression problem: predict continuous valued output(price)
+-classification problem: discrete valued output(eg 0 or 1)
+	-looks like logit
+
+|| Linear Regression ||
+
+-data set called 'Training Set'
+Symbology
+	-m: # of training examples
+	-x's: "input" var/ features
+	-y's: "output" var/"target" variables
+	-(x, y): one training ex
+	-(x^(i), y^(i)) - ith training ex
+
+- Training Set -> Learning Algorithm -> h(hypothesis)
+	-h(*) maps from x's to y's
+	-h : X -> Y
+- How do we represent h?
+	-h_theta(x) = theta_0 + theta_1(x)
+
+-Theta^i's are parameters
+
+|| Gradient Descent ||
+
+- ":=" is assignment operator
+- alpha is learning rate
+-algorithm:
+	repeat until convergence
+	theta_j := theta_j - alpha (d/d(theta_j))(J(theta_0, theta_1)
+		(for j = 0 and j = 1)
+	simultaneously update theta_0 and theta_1
+
+Correct: Simultaneous Update
+temp0 := theta_0 - alpha * d/d(theta_0) (J(*))
+temp1 := theta_1 - alpha * d/d(theta_1) (J(*))
+theta_0 := temp0
+theta_1 := temp1
+
+"Batch" Gradient Descent
+	Each step of gradient descent uses all the training examples

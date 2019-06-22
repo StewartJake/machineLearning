@@ -1,0 +1,103 @@
+||Logistic Regression||
+
+h_theta(x) = g(theta' * x)
+  : g(z) = (1 + e^-z)^-1
+
+g(-) called the Logistic Function or Sigmoid Function
+
+||Interpretation of Hypothesis Output||
+
+h_theta(x) = estimated probability that y=1 on output x
+
+mathematically
+h_theta(x) = p(y=1 |x;theta)
+probability that y=1, given x, parameterized by theta
+
+||Logistic Regressiong Cost Function||
+
+-because the h(-) is the sigmoid function, using the squared error optimization leads to a non-convex function shape. This means wee would not be guaranteed to find the global min
+
+Cost(h_THETA(x), y) = -log(h_THETA(x))    if y=1,
+		      -log(1-h_THETA(x))  if y=0
+
+- if y = 1 and h(-) = 1, cost = 0
+  if y=1 but h(-) = 0, cost approaches infinity. It's a very large cost for our training set
+
+-simplified:
+Cost(h_THETA(x), y) = -ylog(h_THETA(x)) - (1-y)log(1-h_THETA(x))
+
+J(THETA) = m^-SUM(_i=1)(^m)(Cost(h_THETA(x^i),y^i))
+:Cost(simplified)
+
+|| Advanced Optimizations ||
+
+-Some advanced algorithms not fleshed out in this course are:
+Conjugate Gradient
+BFGS
+L-BFGS
+Pros:
+  No need to manually pick ALPHA
+    Uses a clever Line Search algorithm to find best rate
+  Often faster than gradient descent
+Cons:
+  More Complex
+
+Eg:
+function [jVal, gradient] = costFunction(theta)
+  jVal = (theta(1)-5)^2 + (theta(2)-5)^2;
+  // this is the function
+  gradient = zeros(2,1);
+  gradient(1) = 2*(theta(1)-5);
+  gradient(2) = 2*(theta(2)-5);
+  // these are the partial derivs
+
+to run in Octave...
+options = optimset('GradObj', 'on', 'MaxIter', 100);
+// GradObj on means we provided the gradient in the function
+initialTheta = zeros(2,1);
+[optTheta, funtionalVal, exitFlag] = 
+  fminunc(@costFunction, initialTheta, options);
+  // function minimization unconstrained :: fminunc
+  // functionVal returns the value at the discovered minimum 
+  // exitFlag provides convergences status find in [help fminunc]
+  // fminunc requires initialTheta to be |R^d : d >= 2; vector of at least 2 dim
+
+|| Multi-Class Classification ||
+
+Use One-vs-All (One-vs-Rest) Algorithm
+divide trainin set into k subsets : k = # of classes
+for each class i  subset, i is positive and all other classes are negative
+h(_THETA)(^i)(x)(y=1|x;THETA) : i =[1,...,k]
+when trying to determine a new instance, run in all hypotheses and chose the one that gives the highest probability
+
+|| Problem of Overfitting ||
+
+A linear regression might not fit a plateuing curve
+	this is called underfitting ot "high bias"
+
+A quadratic f(*) might fit a curve well with small error
+
+Adding a 4th power exponent may get the regression to hit every point exactly but it it a poor predictor past the training set
+	this is overfitting or has high variance
+
+overfitting can occur when you have only a few data points with a lot of features
+
+Addressing overfitting:
+  1. Reduce # of Features
+    -Manually select which feature to keep
+    -Model selection algorithm(later in course)
+  2. Regularization
+    -Keep all features, but reduce magnitude or values of each parameter THETA
+    -works well when there are a lot of features, each contributing to y prediction
+
+The idea of regularization is to have small values for THETA parameter set
+  -leads to simpler hypotheses( think of the x^4 turning into a quadratic)
+  - if all values are small less prone to overfitting
+
+Add a term to cost funtion which we minimize to achieve this
+  ... + LAMBDA(Sum(_i=1)(^n)(THETA_j)^2)
+    notice that sum starts at 1; this means we don't penalize THETA_0
+    This is conventional and it doesn't necessarily affect result it we regularize THETA_0
+
+LAMBDA is called the regularization parameter
+  LAMDBA controls the tradeoff between fitting the training set well, form the first half of cost function, and keeping parameters small

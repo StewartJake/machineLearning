@@ -1,0 +1,19 @@
+|| Neural Networks ||
+
+h_THETA(x) for nn will be (1 + e^(-THETA'x))^-1
+x_0 is the bias unit; always equals ones still
+Sigmoid(logistic) activation function may still be used (just the sigmoid)
+"weights" is nn jargon for parameters(THETA)
+first layer is called input layer; last layer is ouput layer; middle layer(can there be multiple?) is called the hidden layer
+  there can be multiple hidden layers
+a(_i)^(j) = "activation of unit i in layer j
+  activation means to get the computation of
+THETA^(j) = matrix of weights controlling function mapping from layer j to layer j + 1
+if network has s_j units in layer j, s_(j+1) units in layer j+1, them THETA^(j) will be of dimension s_(j+1) x (s_j + 1)
+
+|| Forward Propagation: Vectorized Implementation ||
+
+z^(2) = THETA^(1)x
+a^{2} = g(z^{2})
+
+architectures refer to how neurons are connected
