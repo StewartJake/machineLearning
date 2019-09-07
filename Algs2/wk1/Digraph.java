@@ -22,4 +22,13 @@ public class Digraph
 
     public Iterable<Integer> adj(int v)
     {   return adj[v];  }
+    
+    public int E()
+    {   return 0;   }
+
+    public Digraph reverse()
+    {}
+
+    public String toString()
+    {   return "";  }
 }
