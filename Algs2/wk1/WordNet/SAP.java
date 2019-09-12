@@ -1,11 +1,10 @@
-import algs4.cs.princeton.edu.BreadthFirstDirectedPaths;
-import algs4.cs.princeton.edu.Digraph;
+import edu.princeton.cs.algs4.Bag;
+import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
+import edu.princeton.cs.algs4.Digraph;
 
 public class SAP
 {
-    private Digraph                     D;
-    private BreadthFirstDirectedPaths   singleBfs;
-    private BreadthFirstDirectedPaths   multplBfs;
+    private Digraph D;
 
     public SAP(Digraph G)
     {
@@ -14,20 +13,54 @@ public class SAP
 
     public int length(int v, int w)
     {
-        singleBfs = new BreadthFirstDirectedPaths(D, v);
-        if (!hasPathTo(w))  return -1;
-        return singleBfs.distTo(w);
+        Bag<Integer> iterV = new Bag<>();
+        Bag<Integer> iterW = new Bag<>();
+        iterV.add(v);
+        iterV.add(w);
+        return length(iterV, iterW);
     }
 
     public int ancestor(int v, int w)
-    {}
+    {
+        Bag<Integer> iterV = new Bag<>();
+        Bag<Integer> iterW = new Bag<>();
+        iterV.add(v);
+        iterV.add(w);
+        return ancestor(iterV, iterW);
+    }
 
-    public int length(iterable<Integer> v, Iterable<Integer> w)
-    {}
+    public int length(Iterable<Integer> v, Iterable<Integer> w)
+    {   return calcBfs(v, w, true); }
 
     public int ancestor(Iterable<Integer> v, Iterable<Integer> w)
-    {}
+    {   return calcBfs(v, w, false);   }
+    
+    private int calcBfs(Iterable<Integer> v, Iterable<Integer> w, boolean returnLen)
+    {   
+        int                         length      = -1;
+        int                         ancestor    = -1;
+        int                         min         = Integer.MAX_VALUE;
+        BreadthFirstDirectedPaths   bfsV        = new BreadthFirstDirectedPaths(D, v);
+        BreadthFirstDirectedPaths   bfsW        = new BreadthFirstDirectedPaths(D, v);
+     
+        for (int i = 0; i < D.V(); i++)
+        {
+            if (bfsV.hasPathTo(i) && bfsW.hasPathTo(i))
+            {
+                length = bfsV.distTo(i) + bfsW.distTo(i);
+                if (length < min)
+                {
+                    min         = length;
+                    ancestor    = i;
+                }
+            }
+        }
+        if (!returnLen)                         return ancestor;
+        if (min == Integer.MAX_VALUE)   return length;
+        return min;
+    }
 
     public static void main(String[] args)
     {}
+
 }
