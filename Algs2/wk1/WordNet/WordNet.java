@@ -23,10 +23,10 @@ public class WordNet
     }
 
     public Iterable<String> nouns()
-    {   return nouns;   }
+    {   return nouns.values();   }
 
     public boolean isNoun(String word)
-    {   return nouns.contains(word);    }
+    {   return nouns.containsValue(word);    }
 
     // public int distance(String nounA, String nounB)
     // {}
