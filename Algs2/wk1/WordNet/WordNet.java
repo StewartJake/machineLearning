@@ -2,15 +2,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
 public class WordNet
 {
-    private Map<Integer, Bag<String>>   nouns   = new HashMap<>();
-    private Queue<String>               single  = new LinkedList<>();
-    private SAP                         wn;
+    private Map<String, Integer>    nouns   = new HashMap<>();
+    private Map<Integer, String>    ids     = new HashMap<>();  
+    private SAP                     wn;
 
     public WordNet(String synets, String hypernyms)
     {
@@ -20,13 +19,10 @@ public class WordNet
             String      line    = synF.readLine();
             String[]    fields  = line.split(",");
             String[]    words   = fields[1].split(" ");
-            Bag<String> bag     = new Bag<>();
+            int         iter    = Integer.parseInt(fields[0]);
             for (int i = 0; i < words.length; i++)
-            {
-                bag.add(words[i]);
-                single.add(words[i]);
-            }
-            nouns.put(Integer.parseInt(fields[0]), bag);
+                nouns.put(words[i], iter);
+            ids.put(iter, fields[1]);
         }
         Digraph G = new Digraph(nouns.size());
 
@@ -43,19 +39,33 @@ public class WordNet
                 G.addEdge(v, w);
             }
         }
+        wn = new SAP(G);
     }
 
     public Iterable<String> nouns()
-    {   return single;   }
+    {   return nouns.keySet();   }
 
     public boolean isNoun(String word)
-    {   return single.contains(word);    }
+    {   return nouns.containsKey(word);    }
 
-    // public int distance(String nounA, String nounB)
-    // {}
+    public int distance(String nounA, String nounB)
+    {
+        if (!isNoun(nounA) || !isNoun(nounB))
+            throw new IllegalArgumentException("One of the arguments is invalid");
+        int a = nouns.get(nounA);
+        int b = nouns.get(nounB);
+        return wn.length(a, b);
+    }
 
-    // public String sap(Sting nounA, String nounB)
-    // {}
+    public String sap(String nounA, String nounB)
+    {
+        if (!isNoun(nounA) || !isNoun(nounB))
+            throw new IllegalArgumentException("One of the arguments is invalid");
+        int a = nouns.get(nounA);
+        int b = nouns.get(nounB);
+        int i = wn.ancestor(a, b);
+        return ids.get(i);
+    }
 
     public static void main(String[] args)
     {}
