@@ -1,7 +1,5 @@
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
@@ -68,5 +66,5 @@ public class WordNet
     }
 
     public static void main(String[] args)
-    {}
+    { // no unit tests present }
 }

@@ -2,12 +2,12 @@ public class Outcast
 {
     private WordNet wn;
 
-    public Outcast (WordNet wordnet)
+    public Outcast(WordNet wordnet)
     {
         this.wn = wordnet;
     }
 
-    public String outcast (String[] nouns)
+    public String outcast(String[] nouns)
     {
         int     maxDist = Integer.MIN_VALUE;
         int     sum;
@@ -27,6 +27,6 @@ public class Outcast
     }
 
     public static void main(String[] args)
-    {}
+    { // no unit tests atm }
 
 }

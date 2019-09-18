@@ -41,7 +41,7 @@ public class SAP
         int                         ancestor    = -1;
         int                         min         = Integer.MAX_VALUE;
         BreadthFirstDirectedPaths   bfsV        = new BreadthFirstDirectedPaths(D, v);
-        BreadthFirstDirectedPaths   bfsW        = new BreadthFirstDirectedPaths(D, v);
+        BreadthFirstDirectedPaths   bfsW        = new BreadthFirstDirectedPaths(D, w);
      
         for (int i = 0; i < D.V(); i++)
         {
@@ -55,12 +55,12 @@ public class SAP
                 }
             }
         }
-        if (!returnLen)                         return ancestor;
+        if (!returnLen)                 return ancestor;
         if (min == Integer.MAX_VALUE)   return length;
         return min;
     }
 
     public static void main(String[] args)
-    {}
+    { // no unit tests present }
 
 }
