@@ -1,6 +1,9 @@
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 public class SAP
 {
@@ -16,7 +19,7 @@ public class SAP
         Bag<Integer> iterV = new Bag<>();
         Bag<Integer> iterW = new Bag<>();
         iterV.add(v);
-        iterV.add(w);
+        iterW.add(w);
         return length(iterV, iterW);
     }
 
@@ -25,7 +28,7 @@ public class SAP
         Bag<Integer> iterV = new Bag<>();
         Bag<Integer> iterW = new Bag<>();
         iterV.add(v);
-        iterV.add(w);
+        iterW.add(w);
         return ancestor(iterV, iterW);
     }
 
@@ -61,6 +64,13 @@ public class SAP
     }
 
     public static void main(String[] args)
-    { // no unit tests present }
-
+    {
+        In in = new In(args[0]);
+        Digraph G = new Digraph(in);
+        SAP sap = new SAP(G);
+        int v = 48507;
+        int w = 56321;
+        System.out.println(sap.length(v, w));
+        System.out.println(sap.ancestor(v, w));
+    }
 }

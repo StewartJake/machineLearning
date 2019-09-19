@@ -66,5 +66,5 @@ public class WordNet
     }
 
     public static void main(String[] args)
-    { // no unit tests present }
+    { /* no unit tests present */   }
 }

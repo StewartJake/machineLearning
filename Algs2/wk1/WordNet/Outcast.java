@@ -27,6 +27,6 @@ public class Outcast
     }
 
     public static void main(String[] args)
-    { // no unit tests atm }
+    { /* no unit tests atm */   }
 
 }
