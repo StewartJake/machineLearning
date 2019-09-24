@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Topological;
 
 public class WordNet
 {
@@ -37,6 +38,9 @@ public class WordNet
                 G.addEdge(v, w);
             }
         }
+        Topological isDAG = new Topological(G);
+        if (!isDAG.hasOrder())
+            throw new IllegalArgumentException("The file does not represent a DAG");
         wn = new SAP(G);
     }
 
@@ -44,7 +48,10 @@ public class WordNet
     {   return nouns.keySet();   }
 
     public boolean isNoun(String word)
-    {   return nouns.containsKey(word);    }
+    {
+        if (word == null)   throw new IllegalArgumentException("Word is null");
+        return nouns.containsKey(word);
+    }
 
     public int distance(String nounA, String nounB)
     {

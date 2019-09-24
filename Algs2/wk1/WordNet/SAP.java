@@ -37,13 +37,16 @@ public class SAP
     {   return calcBfs(v, w, false);   }
     
     private int calcBfs(Iterable<Integer> v, Iterable<Integer> w, boolean returnLen)
-    {   
+    {  
+        checkInput(v);
+        checkInput(w);
+
         int                         length      = -1;
         int                         ancestor    = -1;
         int                         min         = Integer.MAX_VALUE;
         BreadthFirstDirectedPaths   bfsV        = new BreadthFirstDirectedPaths(D, v);
         BreadthFirstDirectedPaths   bfsW        = new BreadthFirstDirectedPaths(D, w);
-     
+
         for (int i = 0; i < D.V(); i++)
         {
             if (bfsV.hasPathTo(i) && bfsW.hasPathTo(i))
@@ -59,6 +62,18 @@ public class SAP
         if (!returnLen)                 return ancestor;
         if (min == Integer.MAX_VALUE)   return length;
         return min;
+    }
+
+    private void checkInput(Iterable<Integer> ins)
+    {
+        if (ins == null) throw new IllegalArgumentException("Null input detected");
+        for (Integer i : ins)
+        {
+            if (i.equals(null))
+                throw new IllegalArgumentException("Illegal entry in input iterable");
+            if (i.intValue() < 0 || i.intValue() > D.V())
+                throw new IllegalArgumentException("Input out of bounds");
+        }
     }
 
     public static void main(String[] args)
