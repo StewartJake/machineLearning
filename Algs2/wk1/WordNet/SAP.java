@@ -69,7 +69,7 @@ public class SAP
         if (ins == null) throw new IllegalArgumentException("Null input detected");
         for (Integer i : ins)
         {
-            if (i.equals(null))
+            if (i == null)
                 throw new IllegalArgumentException("Illegal entry in input iterable");
             if (i.intValue() < 0 || i.intValue() > D.V())
                 throw new IllegalArgumentException("Input out of bounds");
@@ -81,8 +81,12 @@ public class SAP
         In in = new In(args[0]);
         Digraph G = new Digraph(in);
         SAP sap = new SAP(G);
-        int v = 48507;
-        int w = 56321;
+        Bag<Integer> v = new Bag<>();
+        v.add(7);
+        v.add(12);
+        Bag<Integer> w = new Bag<>();
+        w.add(9);
+        w.add(null);
         System.out.println(sap.length(v, w));
         System.out.println(sap.ancestor(v, w));
     }
