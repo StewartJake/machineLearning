@@ -1,14 +1,15 @@
 import java.util.HashMap;
 import java.util.Map;
+import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Topological;
 
 public class WordNet
 {
-    private Map<String, Integer>    nouns   = new HashMap<>();
-    private Map<Integer, String>    ids     = new HashMap<>();  
-    private SAP                     wn;
+    private Map<String, Bag<Integer>>   nouns   = new HashMap<>();
+    private Map<Integer, String>        ids     = new HashMap<>();  
+    private SAP                         wn;
 
     public WordNet(String synets, String hypernyms)
     {
@@ -18,10 +19,18 @@ public class WordNet
             String      line    = synF.readLine();
             String[]    fields  = line.split(",");
             String[]    words   = fields[1].split(" ");
-            int         iter    = Integer.parseInt(fields[0]);
+            int         id      = Integer.parseInt(fields[0]);
             for (int i = 0; i < words.length; i++)
-                nouns.put(words[i], iter);
-            ids.put(iter, fields[1]);
+            {
+                if (!nouns.contains(words[i]))
+                {
+                    Bag<Integer> b = new Bag<>();
+                    nouns.put(words[i], b);
+                }
+                Bag<Integer> tempBag = nouns.get(words[i]);
+                tempBag.add(id);
+            }
+            ids.put(id, fields[1]);
         }
         Digraph G = new Digraph(nouns.size());
 
@@ -55,8 +64,10 @@ public class WordNet
 
     public int distance(String nounA, String nounB)
     {
-        if (!isNoun(nounA) || !isNoun(nounB))
-            throw new IllegalArgumentException("One of the arguments is invalid");
+        // if (!isNoun(nounA) || !isNoun(nounB))
+        //     throw new IllegalArgumentException("One of the arguments is invalid");
+        nounInputCheck(nounA);
+        nounInputCheck(nounB);
         int a = nouns.get(nounA);
         int b = nouns.get(nounB);
         return wn.length(a, b);
@@ -64,12 +75,20 @@ public class WordNet
 
     public String sap(String nounA, String nounB)
     {
-        if (!isNoun(nounA) || !isNoun(nounB))
-            throw new IllegalArgumentException("One of the arguments is invalid");
+        // if (!isNoun(nounA) || !isNoun(nounB))
+        //     throw new IllegalArgumentException("One of the arguments is invalid");
+        nounInputCheck(nounA);
+        nounInputCheck(nounB);
         int a = nouns.get(nounA);
         int b = nouns.get(nounB);
         int i = wn.ancestor(a, b);
         return ids.get(i);
+    }
+
+    public void nounInputCheck(String word)
+    {
+        if(!isNoun(word))
+            throw new IllegalArgumentException("One of the arguments is invalid");
     }
 
     public static void main(String[] args)
