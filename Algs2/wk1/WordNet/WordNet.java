@@ -38,8 +38,8 @@ public class WordNet
                 G.addEdge(v, w);
             }
         }
-        Topological isDAG = new Topological(G);
-        if (!isDAG.hasOrder())
+        Topological checkDAG = new Topological(G);
+        if (!checkDAG.hasOrder())
             throw new IllegalArgumentException("The file does not represent a DAG");
         wn = new SAP(G);
     }
