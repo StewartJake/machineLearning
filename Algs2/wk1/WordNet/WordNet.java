@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Topological;
 
@@ -22,7 +23,7 @@ public class WordNet
             int         id      = Integer.parseInt(fields[0]);
             for (int i = 0; i < words.length; i++)
             {
-                if (!nouns.contains(words[i]))
+                if (!nouns.containsKey(words[i]))
                 {
                     Bag<Integer> b = new Bag<>();
                     nouns.put(words[i], b);
@@ -47,9 +48,10 @@ public class WordNet
                 G.addEdge(v, w);
             }
         }
-        Topological checkDAG = new Topological(G);
-        if (!checkDAG.hasOrder())
-            throw new IllegalArgumentException("The file does not represent a DAG");
+        // DirectedCycle checkCycle = new DirectedCycle(G);
+        // Topological checkDAG = new Topological(G);
+        // if (!checkCycle.hasCycle() || !checkDAG.hasOrder())
+        //     throw new IllegalArgumentException("The file does not represent a DAG");
         wn = new SAP(G);
     }
 
@@ -68,8 +70,8 @@ public class WordNet
         //     throw new IllegalArgumentException("One of the arguments is invalid");
         nounInputCheck(nounA);
         nounInputCheck(nounB);
-        int a = nouns.get(nounA);
-        int b = nouns.get(nounB);
+        Bag<Integer> a = nouns.get(nounA);
+        Bag<Integer> b = nouns.get(nounB);
         return wn.length(a, b);
     }
 
@@ -79,18 +81,25 @@ public class WordNet
         //     throw new IllegalArgumentException("One of the arguments is invalid");
         nounInputCheck(nounA);
         nounInputCheck(nounB);
-        int a = nouns.get(nounA);
-        int b = nouns.get(nounB);
+        Bag<Integer> a = nouns.get(nounA);
+        Bag<Integer> b = nouns.get(nounB);
         int i = wn.ancestor(a, b);
         return ids.get(i);
     }
 
-    public void nounInputCheck(String word)
+    private void nounInputCheck(String word)
     {
         if(!isNoun(word))
-            throw new IllegalArgumentException("One of the arguments is invalid");
+            throw new IllegalArgumentException("One of the arguments is outside of the set");
     }
 
     public static void main(String[] args)
-    { /* no unit tests present */   }
+    {
+        String synset       = args[0];
+        String hypernym     = args[1];
+        // String nounA        = "stinker";
+        // String nounB        = "thing";
+        WordNet wn = new WordNet(synset, hypernym);
+        // System.out.println(wn.distance(nounA, nounB));
+    }
 }
