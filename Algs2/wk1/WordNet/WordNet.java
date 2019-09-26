@@ -4,7 +4,6 @@ import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.Topological;
 
 public class WordNet
 {
@@ -33,7 +32,7 @@ public class WordNet
             }
             ids.put(id, fields[1]);
         }
-        Digraph G = new Digraph(nouns.size());
+        Digraph g = new Digraph(nouns.size());
 
         In hypF = new In(hypernyms);
         while (hypF.hasNextLine())
@@ -45,14 +44,12 @@ public class WordNet
             for (int i = 1; i < fields.length; i++)
             {
                 w = Integer.parseInt(fields[i]);
-                G.addEdge(v, w);
+                g.addEdge(v, w);
             }
         }
-        // DirectedCycle checkCycle = new DirectedCycle(G);
-        // Topological checkDAG = new Topological(G);
-        // if (!checkCycle.hasCycle() || !checkDAG.hasOrder())
-        //     throw new IllegalArgumentException("The file does not represent a DAG");
-        wn = new SAP(G);
+        if (!isDAG(g))
+            throw new IllegalArgumentException("The file does not represent a DAG");
+        wn = new SAP(g);
     }
 
     public Iterable<String> nouns()
@@ -91,6 +88,25 @@ public class WordNet
     {
         if(!isNoun(word))
             throw new IllegalArgumentException("One of the arguments is outside of the set");
+    }
+
+    private boolean isDAG(Digraph g)
+    {
+        // check for cycles
+        DirectedCycle checkCycle = new DirectedCycle(g);
+        if (checkCycle.hasCycle())  return false;
+        
+        // check roots
+        int roots = 0;
+        for (int i = 0; i < g.V(); i++)
+        {
+            if (g.adj(i).iterator().hasNext()){
+                roots++;
+                if (roots > 1)  return false;
+            }
+        }
+        if (roots != 1) return false;
+        return true;
     }
 
     public static void main(String[] args)
