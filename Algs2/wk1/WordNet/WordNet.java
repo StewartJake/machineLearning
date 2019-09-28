@@ -100,13 +100,11 @@ public class WordNet
         int roots = 0;
         for (int i = 0; i < g.V(); i++)
         {
-            if (g.adj(i).iterator().hasNext()){
-                roots++;
-                if (roots > 1)  return false;
-            }
+            if (!g.adj(i).iterator().hasNext()) roots++;
+            //if (roots > 1)  return false;
         }
-        if (roots != 1) return false;
-        return true;
+       // if (roots != 1) return false;
+        return roots == 1;
     }
 
     public static void main(String[] args)
