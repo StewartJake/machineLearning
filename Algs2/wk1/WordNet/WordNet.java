@@ -32,7 +32,7 @@ public class WordNet
             }
             ids.put(id, fields[1]);
         }
-        Digraph g = new Digraph(nouns.size());
+        Digraph g = new Digraph(ids.size());
 
         In hypF = new In(hypernyms);
         while (hypF.hasNextLine())
@@ -99,11 +99,7 @@ public class WordNet
         // check roots
         int roots = 0;
         for (int i = 0; i < g.V(); i++)
-        {
             if (!g.adj(i).iterator().hasNext()) roots++;
-            //if (roots > 1)  return false;
-        }
-       // if (roots != 1) return false;
         return roots == 1;
     }
 
