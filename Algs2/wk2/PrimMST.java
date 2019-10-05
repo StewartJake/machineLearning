@@ -37,7 +37,20 @@ public class PrimMST
         }
     }
 
-    public Iterable<edge> edges()
+    public Iterable<Edge> edges()
+    {   
+        Bag<Edge> b = new Bag<>();
+        for (int i = 0; i < edgeTo.length; i++)
+            b.add(edgeTo[i]);
+        return b;
+    }
+
     public double weight()
+    {
+        double w;
+        for (Edge e : edges())
+            w += e.weight();
+        retrun w;
+    }
 }
 
