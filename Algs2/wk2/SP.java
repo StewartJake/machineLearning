@@ -1,8 +1,20 @@
 public class SP
 {
+    private int[] distTo;
+    private DirectedEdge[] edgeTo;
+
     public SP(EdgeWeightedDigraph g, int s)
+    
     public double distTo(int v)
+    {   return distTo[v];   }
+    
     public Iterable <DirectedEdge> pathTo(int v)
+    {
+        Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+        for (DirectedEdge e = edgeTo[v]; e != null; e=edgeTo[e.from()])
+            path.push(e);
+        return path;
+    }
     public static void main(String[] args)
     {
         SP sp = new SP(G, s);
