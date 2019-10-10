@@ -15,6 +15,17 @@ public class SP
             path.push(e);
         return path;
     }
+
+    private void relax(DirectedEdge e)
+    {
+        int v = e.from();
+        int w = e.to();
+        if (distoTo[w] > distTo[v] + e.weight())
+        {
+            distTo[w] = distTo[v] + e.weight();
+            edgeTo[w] = e;
+        }
+    }
     public static void main(String[] args)
     {
         SP sp = new SP(G, s);
