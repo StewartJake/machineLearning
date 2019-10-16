@@ -1,3 +1,5 @@
+import edu.cs.prnceton.algs.Topological;
+
 public class AcyclicSP
 {
     private DirectedEdge[] edgeTo;
