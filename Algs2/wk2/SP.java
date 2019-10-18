@@ -26,6 +26,13 @@ public class SP
             edgeTo[w] = e;
         }
     }
+
+    boolean hasNegativeCycle()
+    {   return false;   }
+
+    Iterable <DirectedEdge> negativeCycle()
+    {}
+
     public static void main(String[] args)
     {
         SP sp = new SP(G, s);
