@@ -60,8 +60,8 @@ public class BellmanFordSP
     }
 
     private boolean hasNegativeCycle()
-    {}
+    {   return cycle != null;   }
 
     public Iterable<Edge> negativeCycle()
-    {}
+    {   return cycle;   }
 }
